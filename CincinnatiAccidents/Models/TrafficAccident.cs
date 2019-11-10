@@ -2,7 +2,7 @@
 //
 // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
 //
-//    using TrafficAccident;
+//    using QuickTypeTraffic;
 //
 //    var trafficAccident = TrafficAccident.FromJson(jsonString);
 
@@ -86,7 +86,7 @@ namespace QuickTypeTraffic
         public long? Zip { get; set; }
 
         [JsonProperty("unittype", NullValueHandling = NullValueHandling.Ignore)]
-        public string Unittype { get; set; }
+        public Unittype? Unittype { get; set; }
 
         [JsonProperty("latitude_x", NullValueHandling = NullValueHandling.Ignore)]
         public string LatitudeX { get; set; }
@@ -100,29 +100,31 @@ namespace QuickTypeTraffic
 
     public enum Age { Over70, The1825, The2630, The3140, The4150, The5160, The6170, Under18, Unknown };
 
-    public enum Crashlocation { The01NotAnIntersection, The02FourWayIntersection, The03TIntersection, The04YIntersection, The06FivePointOrMore, The07OnRamp, The08OffRamp, The10DrivewayAlleyAccess, The11RailwayGradeCrossing };
+    public enum Crashlocation { The01NotAnIntersection, The02FourWayIntersection, The03TIntersection, The04YIntersection, The05TrafficCircleRoundabout, The06FivePointOrMore, The07OnRamp, The08OffRamp, The09Crossover, The10DrivewayAlleyAccess, The99Unknown };
 
-    public enum Crashseverity { P, The1FatalInjury, The2Injury, The2SeriousInjurySuspected, The3MinorInjurySuspected, The3PropertyDamageOnlyPdo, The4InjuryPossible, The5PropertyDamageOnly };
+    public enum Crashseverity { P, The2Injury, The2SeriousInjurySuspected, The3MinorInjurySuspected, The3PropertyDamageOnlyPdo, The4InjuryPossible, The5PropertyDamageOnly };
 
     public enum Dayofweek { Fri, Mon, Sat, Sun, Thu, Tue, Wed };
 
-    public enum Gender { FFemale, MMale, Male };
+    public enum Gender { FFemale, MMale };
 
-    public enum Injuries { The1NoInjuryNoneReported, The2Possible, The3NonIncapacitating, The3SuspectedMinorInjury, The4Incapacitating, The4PossibleInjury, The5Fatal, The5NoApparentyInjury };
+    public enum Injuries { The1NoInjuryNoneReported, The2Possible, The3NonIncapacitating, The3SuspectedMinorInjury, The4Incapacitating, The4PossibleInjury, The5NoApparentyInjury };
 
-    public enum Lightconditionsprimary { The1Daylight, The2Dawn, The2Dusk, The3DarkLightedRoadway, The3Dusk, The4DarkLightedRoadway, The5DarkRoadwayNotLighted, The5DarkRoadwayNotLightied, The5DarkUnknownRoadwayLighting, The6DarkUnknownRoadwayLighting, The8Other, The9Unknown };
+    public enum Lightconditionsprimary { The1Daylight, The2Dawn, The2Dusk, The3DarkLightedRoadway, The3Dusk, The4DarkLightedRoadway, The5DarkRoadwayNotLighted, The5DarkRoadwayNotLightied, The5DarkUnknownRoadwayLighting, The6DarkUnknownRoadwayLighting, The9Unknown };
 
     public enum Mannerofcrash { The1NotCollisionBetweenTwoMotorVehiclesInTransport, The2RearEnd, The3HeadOn, The4RearToRear, The5Backing, The6Angle, The7SideswipeSameDirection, The8SideswipeOppositeDirection, The9Unknown };
 
-    public enum Roadconditionsprimary { The01Dry, The02Wet, The03Snow, The04Ice, The07Slush, The09Unknown, The99Unknown };
+    public enum Roadconditionsprimary { The01Dry, The02Wet, The03Snow, The04Ice, The06WaterStandingMoving, The07Slush, The09Unknown, The99Unknown };
 
     public enum Roadcontour { The1StraightLevel, The2StraightGrade, The3CurveLevel, The4CurveGrade, The9Unknown };
 
-    public enum Roadsurface { The1Concrete, The2BlacktopBituminousAsphalt, The3BrickBlock, The4SlagGravelStone };
+    public enum Roadsurface { The1Concrete, The2BlacktopBituminousAsphalt, The3BrickBlock, The4SlagGravelStone, The5Dirt, The6Other };
 
     public enum Typeofperson { DDriver, OOccupant, PPedestrian };
 
-    public enum Weather { The1Clear, The2Cloudy, The3FogSmogSmoke, The4Rain, The5SleetHail, The6Snow, The99OtherUnknown, The9OtherUnknown, Weather5SleetHail };
+    public enum Unittype { The01PassengerCar, The01SubCompact, The02Compact, The02PassengerVanMinivan, The03MidSize, The03SportUtilityVehicle, The04FullSize, The04PickUp, The05Minivan, The06SportUtilityVehicle, The07Pickup, The08Van, The09Motorcycle, The13SingleUnitTruckOrVan2Axles6Tires, The14SingleUnitTruck, The14SingleUnitTruck3Axles, The15SemiTractor, The15SingleUnitTruckTrailer, The17TractorSemiTrailer, The19Bus16Passengers, The21BusVan915SeatsIncludingTheDriver, The21HeavyEquipment, The22Bus16SeatsIncludingTheDriver, The26PedestrianSkater, The99Unknown, The99UnknownOrHitSkip };
+
+    public enum Weather { The1Clear, The2Cloudy, The3FogSmogSmoke, The4Rain, The5SleetHail, The6Snow, The99OtherUnknown, The9OtherUnknown };
 
     public partial class TrafficAccident
     {
@@ -154,6 +156,7 @@ namespace QuickTypeTraffic
                 RoadcontourConverter.Singleton,
                 RoadsurfaceConverter.Singleton,
                 TypeofpersonConverter.Singleton,
+                UnittypeConverter.Singleton,
                 WeatherConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
@@ -254,16 +257,20 @@ namespace QuickTypeTraffic
                     return Crashlocation.The03TIntersection;
                 case "04 - Y-INTERSECTION":
                     return Crashlocation.The04YIntersection;
+                case "05 - TRAFFIC CIRCLE/ROUNDABOUT":
+                    return Crashlocation.The05TrafficCircleRoundabout;
                 case "06 - FIVE-POINT, OR MORE":
                     return Crashlocation.The06FivePointOrMore;
                 case "07 - ON RAMP":
                     return Crashlocation.The07OnRamp;
                 case "08 - OFF RAMP":
                     return Crashlocation.The08OffRamp;
+                case "09 - CROSSOVER":
+                    return Crashlocation.The09Crossover;
                 case "10 - DRIVEWAY/ALLEY ACCESS":
                     return Crashlocation.The10DrivewayAlleyAccess;
-                case "11 - RAILWAY GRADE CROSSING":
-                    return Crashlocation.The11RailwayGradeCrossing;
+                case "99 - UNKNOWN":
+                    return Crashlocation.The99Unknown;
             }
             throw new Exception("Cannot unmarshal type Crashlocation");
         }
@@ -290,6 +297,9 @@ namespace QuickTypeTraffic
                 case Crashlocation.The04YIntersection:
                     serializer.Serialize(writer, "04 - Y-INTERSECTION");
                     return;
+                case Crashlocation.The05TrafficCircleRoundabout:
+                    serializer.Serialize(writer, "05 - TRAFFIC CIRCLE/ROUNDABOUT");
+                    return;
                 case Crashlocation.The06FivePointOrMore:
                     serializer.Serialize(writer, "06 - FIVE-POINT, OR MORE");
                     return;
@@ -299,11 +309,14 @@ namespace QuickTypeTraffic
                 case Crashlocation.The08OffRamp:
                     serializer.Serialize(writer, "08 - OFF RAMP");
                     return;
+                case Crashlocation.The09Crossover:
+                    serializer.Serialize(writer, "09 - CROSSOVER");
+                    return;
                 case Crashlocation.The10DrivewayAlleyAccess:
                     serializer.Serialize(writer, "10 - DRIVEWAY/ALLEY ACCESS");
                     return;
-                case Crashlocation.The11RailwayGradeCrossing:
-                    serializer.Serialize(writer, "11 - RAILWAY GRADE CROSSING");
+                case Crashlocation.The99Unknown:
+                    serializer.Serialize(writer, "99 - UNKNOWN");
                     return;
             }
             throw new Exception("Cannot marshal type Crashlocation");
@@ -322,8 +335,6 @@ namespace QuickTypeTraffic
             var value = serializer.Deserialize<string>(reader);
             switch (value)
             {
-                case "1 - FATAL INJURY":
-                    return Crashseverity.The1FatalInjury;
                 case "2 - INJURY":
                     return Crashseverity.The2Injury;
                 case "2 - SERIOUS INJURY SUSPECTED":
@@ -352,9 +363,6 @@ namespace QuickTypeTraffic
             var value = (Crashseverity)untypedValue;
             switch (value)
             {
-                case Crashseverity.The1FatalInjury:
-                    serializer.Serialize(writer, "1 - FATAL INJURY");
-                    return;
                 case Crashseverity.The2Injury:
                     serializer.Serialize(writer, "2 - INJURY");
                     return;
@@ -494,8 +502,6 @@ namespace QuickTypeTraffic
                     return Gender.FFemale;
                 case "M - MALE":
                     return Gender.MMale;
-                case "MALE":
-                    return Gender.Male;
             }
             throw new Exception("Cannot unmarshal type Gender");
         }
@@ -515,9 +521,6 @@ namespace QuickTypeTraffic
                     return;
                 case Gender.MMale:
                     serializer.Serialize(writer, "M - MALE");
-                    return;
-                case Gender.Male:
-                    serializer.Serialize(writer, "MALE");
                     return;
             }
             throw new Exception("Cannot marshal type Gender");
@@ -548,8 +551,6 @@ namespace QuickTypeTraffic
                     return Injuries.The4Incapacitating;
                 case "4 - POSSIBLE INJURY":
                     return Injuries.The4PossibleInjury;
-                case "5 - FATAL":
-                    return Injuries.The5Fatal;
                 case "5 - NO APPARENTY INJURY":
                     return Injuries.The5NoApparentyInjury;
             }
@@ -583,9 +584,6 @@ namespace QuickTypeTraffic
                     return;
                 case Injuries.The4PossibleInjury:
                     serializer.Serialize(writer, "4 - POSSIBLE INJURY");
-                    return;
-                case Injuries.The5Fatal:
-                    serializer.Serialize(writer, "5 - FATAL");
                     return;
                 case Injuries.The5NoApparentyInjury:
                     serializer.Serialize(writer, "5 - NO APPARENTY INJURY");
@@ -627,8 +625,6 @@ namespace QuickTypeTraffic
                     return Lightconditionsprimary.The5DarkUnknownRoadwayLighting;
                 case "6 - DARK – UNKNOWN ROADWAY LIGHTING":
                     return Lightconditionsprimary.The6DarkUnknownRoadwayLighting;
-                case "8 - OTHER":
-                    return Lightconditionsprimary.The8Other;
                 case "9 - UNKNOWN":
                     return Lightconditionsprimary.The9Unknown;
             }
@@ -674,9 +670,6 @@ namespace QuickTypeTraffic
                     return;
                 case Lightconditionsprimary.The6DarkUnknownRoadwayLighting:
                     serializer.Serialize(writer, "6 - DARK – UNKNOWN ROADWAY LIGHTING");
-                    return;
-                case Lightconditionsprimary.The8Other:
-                    serializer.Serialize(writer, "8 - OTHER");
                     return;
                 case Lightconditionsprimary.The9Unknown:
                     serializer.Serialize(writer, "9 - UNKNOWN");
@@ -782,6 +775,8 @@ namespace QuickTypeTraffic
                     return Roadconditionsprimary.The03Snow;
                 case "04 - ICE":
                     return Roadconditionsprimary.The04Ice;
+                case "06 - WATER (STANDING, MOVING)":
+                    return Roadconditionsprimary.The06WaterStandingMoving;
                 case "07 - SLUSH":
                     return Roadconditionsprimary.The07Slush;
                 case "09 - UNKNOWN":
@@ -813,6 +808,9 @@ namespace QuickTypeTraffic
                     return;
                 case Roadconditionsprimary.The04Ice:
                     serializer.Serialize(writer, "04 - ICE");
+                    return;
+                case Roadconditionsprimary.The06WaterStandingMoving:
+                    serializer.Serialize(writer, "06 - WATER (STANDING, MOVING)");
                     return;
                 case Roadconditionsprimary.The07Slush:
                     serializer.Serialize(writer, "07 - SLUSH");
@@ -904,6 +902,10 @@ namespace QuickTypeTraffic
                     return Roadsurface.The3BrickBlock;
                 case "4 - SLAG, GRAVEL, STONE":
                     return Roadsurface.The4SlagGravelStone;
+                case "5 - DIRT":
+                    return Roadsurface.The5Dirt;
+                case "6 - OTHER":
+                    return Roadsurface.The6Other;
             }
             throw new Exception("Cannot unmarshal type Roadsurface");
         }
@@ -929,6 +931,12 @@ namespace QuickTypeTraffic
                     return;
                 case Roadsurface.The4SlagGravelStone:
                     serializer.Serialize(writer, "4 - SLAG, GRAVEL, STONE");
+                    return;
+                case Roadsurface.The5Dirt:
+                    serializer.Serialize(writer, "5 - DIRT");
+                    return;
+                case Roadsurface.The6Other:
+                    serializer.Serialize(writer, "6 - OTHER");
                     return;
             }
             throw new Exception("Cannot marshal type Roadsurface");
@@ -983,6 +991,167 @@ namespace QuickTypeTraffic
         public static readonly TypeofpersonConverter Singleton = new TypeofpersonConverter();
     }
 
+    internal class UnittypeConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(Unittype) || t == typeof(Unittype?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "01 - PASSENGER CAR":
+                    return Unittype.The01PassengerCar;
+                case "01 - SUB-COMPACT":
+                    return Unittype.The01SubCompact;
+                case "02 - COMPACT":
+                    return Unittype.The02Compact;
+                case "02 - PASSENGER VAN (MINIVAN)":
+                    return Unittype.The02PassengerVanMinivan;
+                case "03 - MID SIZE":
+                    return Unittype.The03MidSize;
+                case "03 - SPORT UTILITY VEHICLE":
+                    return Unittype.The03SportUtilityVehicle;
+                case "04 - FULL SIZE":
+                    return Unittype.The04FullSize;
+                case "04 - PICK UP":
+                    return Unittype.The04PickUp;
+                case "05 - MINIVAN":
+                    return Unittype.The05Minivan;
+                case "06 - SPORT UTILITY VEHICLE":
+                    return Unittype.The06SportUtilityVehicle;
+                case "07 - PICKUP":
+                    return Unittype.The07Pickup;
+                case "08 - VAN":
+                    return Unittype.The08Van;
+                case "09 - MOTORCYCLE":
+                    return Unittype.The09Motorcycle;
+                case "13 - SINGLE UNIT TRUCK OR VAN 2 AXLES, 6 TIRES":
+                    return Unittype.The13SingleUnitTruckOrVan2Axles6Tires;
+                case "14 - SINGLE UNIT TRUCK":
+                    return Unittype.The14SingleUnitTruck;
+                case "14 - SINGLE UNIT TRUCK; 3+ AXLES":
+                    return Unittype.The14SingleUnitTruck3Axles;
+                case "15 - SEMI-TRACTOR":
+                    return Unittype.The15SemiTractor;
+                case "15 - SINGLE UNIT TRUCK / TRAILER":
+                    return Unittype.The15SingleUnitTruckTrailer;
+                case "17 - TRACTOR/SEMI-TRAILER":
+                    return Unittype.The17TractorSemiTrailer;
+                case "19 - BUS (16+ PASSENGERS)":
+                    return Unittype.The19Bus16Passengers;
+                case "21 - BUS /VAN (9-15 SEATS INCLUDING THE DRIVER)":
+                    return Unittype.The21BusVan915SeatsIncludingTheDriver;
+                case "21 - HEAVY EQUIPMENT":
+                    return Unittype.The21HeavyEquipment;
+                case "22 - BUS (16+ SEATS, INCLUDING THE DRIVER)":
+                    return Unittype.The22Bus16SeatsIncludingTheDriver;
+                case "26 - PEDESTRIAN/SKATER":
+                    return Unittype.The26PedestrianSkater;
+                case "99 - UNKNOWN":
+                    return Unittype.The99Unknown;
+                case "99 - UNKNOWN OR HIT/SKIP":
+                    return Unittype.The99UnknownOrHitSkip;
+            }
+            throw new Exception("Cannot unmarshal type Unittype");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (Unittype)untypedValue;
+            switch (value)
+            {
+                case Unittype.The01PassengerCar:
+                    serializer.Serialize(writer, "01 - PASSENGER CAR");
+                    return;
+                case Unittype.The01SubCompact:
+                    serializer.Serialize(writer, "01 - SUB-COMPACT");
+                    return;
+                case Unittype.The02Compact:
+                    serializer.Serialize(writer, "02 - COMPACT");
+                    return;
+                case Unittype.The02PassengerVanMinivan:
+                    serializer.Serialize(writer, "02 - PASSENGER VAN (MINIVAN)");
+                    return;
+                case Unittype.The03MidSize:
+                    serializer.Serialize(writer, "03 - MID SIZE");
+                    return;
+                case Unittype.The03SportUtilityVehicle:
+                    serializer.Serialize(writer, "03 - SPORT UTILITY VEHICLE");
+                    return;
+                case Unittype.The04FullSize:
+                    serializer.Serialize(writer, "04 - FULL SIZE");
+                    return;
+                case Unittype.The04PickUp:
+                    serializer.Serialize(writer, "04 - PICK UP");
+                    return;
+                case Unittype.The05Minivan:
+                    serializer.Serialize(writer, "05 - MINIVAN");
+                    return;
+                case Unittype.The06SportUtilityVehicle:
+                    serializer.Serialize(writer, "06 - SPORT UTILITY VEHICLE");
+                    return;
+                case Unittype.The07Pickup:
+                    serializer.Serialize(writer, "07 - PICKUP");
+                    return;
+                case Unittype.The08Van:
+                    serializer.Serialize(writer, "08 - VAN");
+                    return;
+                case Unittype.The09Motorcycle:
+                    serializer.Serialize(writer, "09 - MOTORCYCLE");
+                    return;
+                case Unittype.The13SingleUnitTruckOrVan2Axles6Tires:
+                    serializer.Serialize(writer, "13 - SINGLE UNIT TRUCK OR VAN 2 AXLES, 6 TIRES");
+                    return;
+                case Unittype.The14SingleUnitTruck:
+                    serializer.Serialize(writer, "14 - SINGLE UNIT TRUCK");
+                    return;
+                case Unittype.The14SingleUnitTruck3Axles:
+                    serializer.Serialize(writer, "14 - SINGLE UNIT TRUCK; 3+ AXLES");
+                    return;
+                case Unittype.The15SemiTractor:
+                    serializer.Serialize(writer, "15 - SEMI-TRACTOR");
+                    return;
+                case Unittype.The15SingleUnitTruckTrailer:
+                    serializer.Serialize(writer, "15 - SINGLE UNIT TRUCK / TRAILER");
+                    return;
+                case Unittype.The17TractorSemiTrailer:
+                    serializer.Serialize(writer, "17 - TRACTOR/SEMI-TRAILER");
+                    return;
+                case Unittype.The19Bus16Passengers:
+                    serializer.Serialize(writer, "19 - BUS (16+ PASSENGERS)");
+                    return;
+                case Unittype.The21BusVan915SeatsIncludingTheDriver:
+                    serializer.Serialize(writer, "21 - BUS /VAN (9-15 SEATS INCLUDING THE DRIVER)");
+                    return;
+                case Unittype.The21HeavyEquipment:
+                    serializer.Serialize(writer, "21 - HEAVY EQUIPMENT");
+                    return;
+                case Unittype.The22Bus16SeatsIncludingTheDriver:
+                    serializer.Serialize(writer, "22 - BUS (16+ SEATS, INCLUDING THE DRIVER)");
+                    return;
+                case Unittype.The26PedestrianSkater:
+                    serializer.Serialize(writer, "26 - PEDESTRIAN/SKATER");
+                    return;
+                case Unittype.The99Unknown:
+                    serializer.Serialize(writer, "99 - UNKNOWN");
+                    return;
+                case Unittype.The99UnknownOrHitSkip:
+                    serializer.Serialize(writer, "99 - UNKNOWN OR HIT/SKIP");
+                    return;
+            }
+            throw new Exception("Cannot marshal type Unittype");
+        }
+
+        public static readonly UnittypeConverter Singleton = new UnittypeConverter();
+    }
+
     internal class WeatherConverter : JsonConverter
     {
         public override bool CanConvert(Type t) => t == typeof(Weather) || t == typeof(Weather?);
@@ -1002,8 +1171,6 @@ namespace QuickTypeTraffic
                 case "4 - RAIN":
                     return Weather.The4Rain;
                 case "5 - SLEET, HAIL":
-                    return Weather.Weather5SleetHail;
-                case "5 - SLEET,HAIL":
                     return Weather.The5SleetHail;
                 case "6 - SNOW":
                     return Weather.The6Snow;
@@ -1037,11 +1204,8 @@ namespace QuickTypeTraffic
                 case Weather.The4Rain:
                     serializer.Serialize(writer, "4 - RAIN");
                     return;
-                case Weather.Weather5SleetHail:
-                    serializer.Serialize(writer, "5 - SLEET, HAIL");
-                    return;
                 case Weather.The5SleetHail:
-                    serializer.Serialize(writer, "5 - SLEET,HAIL");
+                    serializer.Serialize(writer, "5 - SLEET, HAIL");
                     return;
                 case Weather.The6Snow:
                     serializer.Serialize(writer, "6 - SNOW");

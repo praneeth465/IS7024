@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\prane\\source\\repos\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {}
+    "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {}
   },
   "projects": {
-    "C:\\Users\\prane\\source\\repos\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {
+    "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\prane\\source\\repos\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
+        "projectUniqueName": "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
         "projectName": "CincinnatiAccidents",
-        "projectPath": "C:\\Users\\prane\\source\\repos\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
+        "projectPath": "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
         "packagesPath": "C:\\Users\\prane\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\prane\\source\\repos\\CincinnatiAccidents\\obj\\",
+        "outputPath": "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
