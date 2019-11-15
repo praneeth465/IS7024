@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {}
+    "C:\\Users\\prane\\Desktop\\xml\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {}
   },
   "projects": {
-    "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {
+    "C:\\Users\\prane\\Desktop\\xml\\CincinnatiAccidents\\CincinnatiAccidents.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
+        "projectUniqueName": "C:\\Users\\prane\\Desktop\\xml\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
         "projectName": "CincinnatiAccidents",
-        "projectPath": "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
+        "projectPath": "C:\\Users\\prane\\Desktop\\xml\\CincinnatiAccidents\\CincinnatiAccidents.csproj",
         "packagesPath": "C:\\Users\\prane\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\prane\\Documents\\GitHub\\IS7024\\CincinnatiAccidents\\obj\\",
+        "outputPath": "C:\\Users\\prane\\Desktop\\xml\\CincinnatiAccidents\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -60,10 +60,16 @@
             }
           },
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
